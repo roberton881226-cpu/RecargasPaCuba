@@ -18,141 +18,119 @@
       font-weight: bold;
       color: #fff;
     }
-    .subtext {
-      color: #e4f3ff;
-      text-align: center;
-      font-size: 14px;
-      margin-top: -20px;
-      margin-bottom: 25px;
-    }
-    .container {
-      padding: 15px;
-    }
-    .selector {
-      display: flex;
-      gap: 10px;
-    }
-    .selector button {
-      flex: 1;
-      background: #1a73e8;
-      color: #fff;
-      border: none;
-      padding: 15px;
-      border-radius: 12px;
-      font-size: 16px;
-      font-weight: bold;
-    }
-    .selector button.nautaBtn {
-      background: #ff9800;
-    }
-    .card {
-      background: #111827;
-      margin-top: 15px;
-      padding: 15px;
-      border-radius: 16px;
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-    .card img {
-      width: 48px;
-      height: 48px;
-      border-radius: 10px;
-    }
-    .card-title {
-      font-size: 22px;
-      font-weight: bold;
-    }
-    .card-desc {
-      font-size: 14px;
-      color: #c9d1d9;
-    }
-    .useBtn {
-      margin-left: auto;
-      background: #2196f3;
-      color: #fff;
-      padding: 10px 18px;
-      border: none;
-      border-radius: 10px;
-      font-size: 15px;
-      font-weight: bold;
-    }
-    .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      background: #0f172a;
-      display: flex;
-      justify-content: space-around;
-      padding: 12px 0;
-      border-top: 1px solid #1e293b;
-    }
-    .bottom-nav button {
-      background: none;
-      border: none;
-      color: #cbd5e1;
-      font-size: 14px;
-      font-weight: bold;
-    }
+    .view {display:none; padding:20px;}
+    .activeView {display:block;}
+    .card {background:#111827; padding:15px; border-radius:14px; margin-bottom:12px; display:flex; gap:14px; align-items:center;}
+    .card-title {font-size:20px; font-weight:bold;}
+    .card-desc {font-size:14px; color:#c9d1d9;}
+    .nav {position:fixed; bottom:0; left:0; width:100%; background:#111827; display:flex; justify-content:space-around; padding:12px 0; border-top:1px solid #1e293b;}
+    .nav button {background:none; border:none; color:#e2e8f0; font-size:15px; font-weight:bold;}
+    .selector {display:flex; gap:10px; margin-bottom:20px;}
+    .selector button {flex:1; padding:14px; font-size:16px; border:none; border-radius:10px; font-weight:bold;}
+    .cubacelBtn {background:#1a73e8; color:#fff;}
+    .nautaBtn {background:#ff9800; color:#fff;}
+    .useBtn {margin-left:auto; background:#2196f3; border:none; padding:10px 16px; color:#fff; border-radius:10px; font-weight:bold;}
   </style>
 </head>
 <body>
-  <header>RecargasPaCuba</header>
-  <div class="subtext">Enviar recargas a Cuba — rápido y seguro</div>  <div class="container">
+  <header>RecargasPaCuba</header>  <!-- HOME -->  <div id="homeView" class="view activeView">
+    <h2>Bienvenido</h2>
+    <p>Esta app permite enviar recargas Cubacel y Nauta fácilmente.</p>
+  </div>  <!-- RECARGAS -->  <div id="recargaView" class="view">
     <div class="selector">
-      <button id="btnCubacel">🇨🇺 Cubacel</button>
-      <button class="nautaBtn" id="btnNauta">📶 Nauta</button>
-    </div><div id="productos"></div>
-
-  </div>  <div class="bottom-nav">
-    <button>Inicio</button>
-    <button>Recargar</button>
-    <button>Historial</button>
-    <button>Cuenta</button>
+      <button id="btnCubacel" class="cubacelBtn">🇨🇺 Cubacel</button>
+      <button id="btnNauta" class="nautaBtn">📶 Nauta</button>
+    </div>
+    <div id="productos"></div>
+  </div>  <!-- HISTORIAL -->  <div id="histView" class="view">
+    <h2>Historial</h2>
+    <div id="histLista"></div>
+  </div>  <!-- CUENTA -->  <div id="cuentaView" class="view">
+    <h2>Mi cuenta</h2>
+    <p>Este apartado se activará cuando conectemos DingConnect API.</p>
+  </div>  <!-- NAV -->  <div class="nav">
+    <button onclick="showView('homeView')">Inicio</button>
+    <button onclick="showView('recargaView')">Recargar</button>
+    <button onclick="showView('histView')">Historial</button>
+    <button onclick="showView('cuentaView')">Cuenta</button>
   </div>  <script>
-    const cubacel = [
-      {precio: "10,42€", icono: "📱", desc: "CUP 250 – CUP 1247", tipo: "Recarga"},
-      {precio: "20,84€", icono: "🎁", desc: "500 CUP + internet 10h", tipo: "Paquete – 330 días"},
-      {precio: "20,84€", icono: "📦", desc: "5GB + 4GB + 75 MIN + 80 SMS", tipo: "Paquete – 35 días"},
-      {precio: "25,01€", icono: "🌙", desc: "600 CUP + internet nocturno", tipo: "Paquete – 330 días"},
-      {precio: "29,18€", icono: "⚡", desc: "700 CUP + internet 24h", tipo: "Paquete – 330 días"},
-      {precio: "31,26€", icono: "📶", desc: "10GB + 4GB + 115 MIN + 120 SMS", tipo: "Paquete – 30 días"},
-      {precio: "41,68€", icono: "🔥", desc: "16GB + 4GB + 165 MIN + 160 SMS", tipo: "Paquete – 30 días"},
-      {precio: "21,98€", icono: "📡", desc: "10GB CPE", tipo: "Datos CPE"},
-      {precio: "65,93€", icono: "📡", desc: "50GB CPE", tipo: "Datos CPE"},
-      {precio: "109,88€", icono: "📡", desc: "100GB CPE", tipo: "Datos CPE"}
+    function showView(id){
+      document.querySelectorAll('.view').forEach(v=>v.classList.remove('activeView'));
+      document.getElementById(id).classList.add('activeView');
+      if(id==='histView') cargarHistorial();
+    }
+
+    const cubacel=[
+      {precio:"10,42€",icono:"📱",desc:"CUP 250 – CUP 1247",tipo:"Recarga"},
+      {precio:"20,84€",icono:"🎁",desc:"500 CUP + internet 10h",tipo:"Paquete – 330 días"},
+      {precio:"20,84€",icono:"📦",desc:"5GB + 4GB + 75 MIN + 80 SMS",tipo:"Paquete – 35 días"},
+      {precio:"25,01€",icono:"🌙",desc:"600 CUP + internet nocturno",tipo:"Paquete – 330 días"},
+      {precio:"29,18€",icono:"⚡",desc:"700 CUP + internet 24h",tipo:"Paquete – 330 días"},
+      {precio:"31,26€",icono:"📶",desc:"10GB + 4GB + 115 MIN + 120 SMS",tipo:"Paquete – 30 días"},
+      {precio:"41,68€",icono:"🔥",desc:"16GB + 4GB + 165 MIN + 160 SMS",tipo:"Paquete – 30 días"},
+      {precio:"21,98€",icono:"📡",desc:"10GB CPE",tipo:"Datos CPE"},
+      {precio:"65,93€",icono:"📡",desc:"50GB CPE",tipo:"Datos CPE"},
+      {precio:"109,88€",icono:"📡",desc:"100GB CPE",tipo:"Datos CPE"}
     ];
 
-    const nauta = [
-      {precio: "8,12€", icono: "💻", desc: "360 CUP — Recarga 15 días", tipo: "Recarga"},
-      {precio: "8,12€", icono: "🌐", desc: "Internet ilimitado 15 días", tipo: "Datos"},
-      {precio: "13,53€", icono: "💻", desc: "600 CUP — Recarga 30 días", tipo: "Recarga"},
-      {precio: "13,53€", icono: "🌐", desc: "Internet ilimitado 30 días", tipo: "Datos"},
-      {precio: "10,46€ - 52,20€", icono: "📧", desc: "CUP 250 – CUP 1247", tipo: "Recarga"}
+    const nauta=[
+      {precio:"8,12€",icono:"💻",desc:"360 CUP — Recarga 15 días",tipo:"Recarga"},
+      {precio:"8,12€",icono:"🌐",desc:"Internet ilimitado 15 días",tipo:"Datos"},
+      {precio:"13,53€",icono:"💻",desc:"600 CUP — Recarga 30 días",tipo:"Recarga"},
+      {precio:"13,53€",icono:"🌐",desc:"Internet ilimitado 30 días",tipo:"Datos"},
+      {precio:"10,46€ - 52,20€",icono:"📧",desc:"CUP 250 – 1247",tipo:"Recarga"}
     ];
 
-    function render(data) {
-      const box = document.getElementById("productos");
-      box.innerHTML = "";
-      data.forEach(p => {
-        box.innerHTML += `
+    function renderProductos(list){
+      const box=document.getElementById("productos");
+      box.innerHTML="";
+      list.forEach(p=>{
+        box.innerHTML+=`
           <div class="card">
-            <div style="font-size:35px">${p.icono}</div>
+            <div style="font-size:36px">${p.icono}</div>
             <div>
-              <div class="card-title">€ ${p.precio}</div>
+              <div class="card-title">${p.precio}</div>
               <div class="card-desc">${p.desc}</div>
               <div class="card-desc">${p.tipo}</div>
             </div>
-            <button class="useBtn">Usar</button>
+            <button class="useBtn" onclick='usar("${p.precio}","${p.desc}")'>Usar</button>
           </div>
         `;
       });
     }
 
-    document.getElementById("btnCubacel").onclick = () => render(cubacel);
-    document.getElementById("btnNauta").onclick = () => render(nauta);
+    document.getElementById("btnCubacel").onclick=()=>renderProductos(cubacel);
+    document.getElementById("btnNauta").onclick=()=>renderProductos(nauta);
 
-    render(cubacel);
+    renderProductos(cubacel);
+
+    let historial=JSON.parse(localStorage.getItem('historial')||'[]');
+
+    function usar(precio,desc){
+      const num=prompt(`Introduce número destino:
+${precio} – ${desc}`);
+      if(!num || num.length<5) return alert("Número inválido");
+      historial.unshift({precio,desc,num,fecha:new Date().toLocaleString()});
+      localStorage.setItem('historial',JSON.stringify(historial));
+      alert("Guardado en historial (modo demo)");
+    }
+
+    function cargarHistorial(){
+      const box=document.getElementById("histLista");
+      box.innerHTML="";
+      historial.forEach(h=>{
+        box.innerHTML+=`
+          <div class="card">
+            <div>
+              <div class="card-title">${h.precio}</div>
+              <div class="card-desc">${h.desc}</div>
+              <div class="card-desc">A: ${h.num}</div>
+              <div class="card-desc">${h.fecha}</div>
+            </div>
+          </div>
+        `;
+      });
+      if(historial.length===0) box.innerHTML="<p>No hay recargas guardadas</p>";
+    }
   </script></body>
 </html>
