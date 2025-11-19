@@ -5,22 +5,22 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>RecargasPaCuba</title>
   <meta name="theme-color" content="#87CEEB"/>
-  <link rel="manifest" href="manifest.json">
-
+  <link rel="manifest" href="/manifest.json">
   <style>
     :root{
-      --bg:#f6fbff; --card:#fff; --muted:#6b7280; --primary:#87CEEB; --accent:#0b84ff;
-      --danger:#ff4d4f; --glass: rgba(255,255,255,0.7);
-    }
-    @media (prefers-color-scheme: dark) {
-      :root{ --bg:#0b0f14; --card:#0f1720; --muted:#9aa3b2; --primary:#0ea5e9; --accent:#0b84ff;
-        --glass: rgba(255,255,255,0.04);
-      }
-      body{color:#e6eef6}
+      --bg:#0b0f14;          /* app en modo oscuro por defecto para mejor contraste */
+      --card:#0f1720;
+      --muted:#9aa3b2;
+      --primary:#0ea5e9;
+      --accent:#0b84ff;
+      --glass: rgba(255,255,255,0.03);
+      --card-contrast: #0b1220;
+      --btn-text: #ffffff;   /* texto blanco en botones funcionales */
+      --num-color: #ffffff;  /* números blancos */
     }
 
     *{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,Arial;background:var(--bg);color:#0b1220}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,Arial;background:var(--bg);color:#cbd5e1}
 
     header.appbar{
       background:linear-gradient(90deg,var(--primary),#4fc3f7);
@@ -29,17 +29,18 @@
     header.appbar h1{margin:0;font-size:20px;text-align:center;letter-spacing:0.2px}
 
     .wrap{max-width:820px;margin:14px auto;padding:0 12px}
-    .card{background:var(--card);border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:0 8px 24px rgba(11,20,30,0.06)}
+    .card{background:var(--card);border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:0 8px 24px rgba(0,0,0,0.6)}
     label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
 
     input,select,textarea{
-      width:100%;padding:12px;border-radius:10px;border:1px solid rgba(0,0,0,0.06);
-      font-size:15px;background:transparent
+      width:100%;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);
+      font-size:15px;background:transparent;color: #e6eef6;
     }
 
-    button.btn{
-      width:100%;padding:12px;border-radius:12px;border:none;background:var(--accent);
-      color:#fff;font-weight:600;cursor:pointer
+    /* Botones funcionales con texto blanco */
+    button.btn, .tab, .operator-btn, .buyBtn {
+      padding:10px 12px;border-radius:12px;border:none;background:var(--accent);
+      color:var(--btn-text);font-weight:600;cursor:pointer;
     }
 
     .row{display:flex;gap:10px}
@@ -48,43 +49,54 @@
     .small{font-size:13px;color:var(--muted)}
 
     .operators{display:flex;gap:8px;align-items:center}
-    .op{padding:8px 10px;border-radius:10px;background:var(--glass);display:flex;gap:8px;
-      align-items:center;border:1px solid rgba(11,20,30,0.03)
-    }
+    .op{padding:8px 10px;border-radius:10px;background:var(--glass);display:flex;gap:8px;align-items:center;border:1px solid rgba(255,255,255,0.03)}
 
+    /* tarjetas de precio / ofertas */
     .price-card{
-      display:flex;justify-content:space-between;align-items:center;padding:10px;border-radius:10px;
-      border:1px solid rgba(11,20,30,0.04);margin-top:8px
+      display:flex;justify-content:space-between;align-items:center;padding:12px;border-radius:10px;
+      border:1px solid rgba(255,255,255,0.03);margin-top:8px;background:rgba(255,255,255,0.02);
+      color:#cbd5e1;
     }
 
-    .price-card button{
-      padding:8px 10px;border-radius:8px;background:#fff;border:1px solid rgba(11,20,30,0.06);cursor:pointer
+    .price-card .left { display:flex;gap:10px;align-items:center;flex:1 }
+    .price-card .desc { color:var(--muted); font-size:13px }
+    .price-card .amount { font-weight:700; font-size:16px }
+
+    /* botón comprar: texto blanco */
+    .price-card .buyBtn{
+      background:#0b84ff;border-radius:8px;padding:8px 12px;color:var(--btn-text);border:none;cursor:pointer;
     }
 
     nav.bottom{
-      position:fixed;left:0;right:0;bottom:0;padding:10px 12px;background:transparent;
-      display:flex;justify-content:center;pointer-events:none
+      position:fixed;left:0;right:0;bottom:0;padding:10px 12px;background:transparent;display:flex;justify-content:center;pointer-events:none
     }
 
-    .bottom-inner{
-      max-width:820px;width:100%;display:flex;gap:8px;pointer-events:auto
-    }
-
+    .bottom-inner{max-width:820px;width:100%;display:flex;gap:8px;pointer-events:auto}
     .tab{
-      flex:1;padding:12px;border-radius:12px;background:var(--card);text-align:center;
-      border:1px solid rgba(11,20,30,0.04);cursor:pointer
+      flex:1;padding:12px;border-radius:12px;background:var(--card);text-align:center;border:1px solid rgba(255,255,255,0.03);cursor:pointer;
+      color:var(--btn-text); /* tabs funcionales en blanco */
     }
+    .tab.inactive{ color:#94a3b8; background:transparent; border:1px solid rgba(255,255,255,0.02) }
 
-    .active{border:2px solid var(--accent)}
-    .title{font-weight:700;font-size:18px;margin-bottom:6px}
+    .tab.active{ border:2px solid var(--accent); background: rgba(11,132,255,0.08) }
 
-    .promo{
-      background:linear-gradient(90deg,#ffecd2,#fcb69f);padding:12px;border-radius:10px;color:#3b2f1d
-    }
+    .title{font-weight:700;font-size:18px;margin-bottom:6px;color:#e6eef6}
 
-    footer.info{
-      padding:24px 12px;text-align:center;color:var(--muted);font-size:13px;margin-top:70px
-    }
+    .promo{background:linear-gradient(90deg,#ffecd2,#fcb69f);padding:12px;border-radius:10px;color:#3b2f1d}
+
+    footer.info{padding:24px 12px;text-align:center;color:var(--muted);font-size:13px;margin-top:70px}
+
+    .operator-row{display:flex;gap:8px;margin-top:10px}
+    .operator-btn{flex:1}
+
+    /* números blancos (donde los envolvemos con .num) */
+    .num { color: var(--num-color); font-weight:700; }
+
+    /* hacer que el texto dentro de botones "Usar" o "Comprar" siempre sea blanco */
+    button, .buyBtn { color: var(--btn-text) !important; }
+
+    /* detalles: historial y listas */
+    .history-item{padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);margin-bottom:8px;background:transparent;color:#e6eef6}
 
     @media(min-width:700px){
       .wrap{padding:0 40px}
@@ -94,49 +106,37 @@
 </head>
 
 <body>
-
 <header class="appbar">
   <h1>RecargasPaCuba</h1>
 </header>
 
 <div class="wrap">
 
-  <!-- HOME -->
+  <!-- HOME: solo bienvenida -->
   <div class="card" id="homeCard">
-    <div class="title">Recargas rápidas a Cuba</div>
-    <div class="muted">Envía saldo rápido. Funciona offline.</div>
-
-    <div style="height:10px"></div>
-    <div class="promo">🔥 Promo demo: recarga + bonus (demo)</div>
+    <div class="title">Bienvenido a RecargasPaCuba</div>
+    <div class="muted">Envía saldo a tu familia en Cuba rápida y seguro (demo)</div>
   </div>
 
   <!-- RECARGAR -->
   <div class="card" id="rechargeCard" style="display:none">
     <div class="title">Enviar recarga</div>
-    <div class="muted">Selecciona operador y cantidad.</div>
+    <div class="muted">Selecciona operador y la oferta.</div>
 
-    <div style="height:10px"></div>
-
-    <label for="operator">Operadora</label>
-    <div class="operators">
-      <div class="op">
-        <select id="operator" style="border:none;background:transparent;padding:0;">
-          <option value="cubacel">🇨🇺 Cubacel</option>
-        </select>
-      </div>
-
-      <div style="flex:1">
-        <label for="phone">Número (53XXXXXXXXX)</label>
-        <input id="phone" placeholder="53XXXXXXXXX"/>
-      </div>
+    <!-- botones de operador (CUBACEL / NAUTA) -->
+    <div class="operator-row" style="margin-top:10px">
+      <button id="opCubacel" class="operator-btn">CUBACEL</button>
+      <button id="opNauta" class="operator-btn">NAUTA</button>
     </div>
 
-    <div style="height:10px"></div>
-    <label for="amount">Cantidad (USD)</label>
-    <input id="amount" type="number" min="1" placeholder="10"/>
+    <div style="height:12px"></div>
 
-    <div class="muted" style="margin-top:10px">Precios rápidos</div>
-    <div id="prices"></div>
+    <label for="phone">Número (ej. 53XXXXXXXXX)</label>
+    <input id="phone" placeholder="53XXXXXXXXX" />
+
+    <div style="height:10px"></div>
+
+    <div id="offersContainer"><!-- ofertas renderizadas desde JS --></div>
 
     <div style="height:12px"></div>
     <button id="sendBtn" class="btn">Enviar recarga</button>
@@ -146,7 +146,7 @@
   <!-- HISTORIAL -->
   <div class="card" id="historyCard" style="display:none">
     <div class="title">Historial</div>
-    <div class="muted">Tus recargas guardadas.</div>
+    <div class="muted">Tus recargas guardadas</div>
     <div id="historyList" style="margin-top:12px"></div>
   </div>
 
@@ -160,7 +160,7 @@
 </div>
 
 <!-- NAV -->
-<nav class="bottom">
+<nav class="bottom" aria-hidden="false">
   <div class="bottom-inner">
     <div id="tab-home" class="tab active">Inicio</div>
     <div id="tab-recharge" class="tab">Recargar</div>
@@ -170,105 +170,172 @@
 </nav>
 
 <script>
+/* -------- Estado y helpers -------- */
 const $ = id => document.getElementById(id);
-const tabs = ["home","recharge","history","account"];
+const tabs = ['home','recharge','history','account'];
+const state = {
+  history: JSON.parse(localStorage.getItem('rp_history')||'[]'),
+  operator: 'cubacel'
+};
 
+/* ofertas: textualmente puestas como pediste (aquí 8 cubacel y varias nauta) */
+/* He puesto textos y cantidades basados en las capturas (puedes editar si quieres) */
+const cubacelOffers = [
+  {amount:'<span class="num">EUR 10,42</span>', desc:'Cubacel Cuba - Recarga mínima'},
+  {amount:'<span class="num">EUR 20,84</span>', desc:'Cubacel Cuba - Paquete 5GB'},
+  {amount:'<span class="num">EUR 25,01</span>', desc:'Cubacel Cuba - Paquete 10GB'},
+  {amount:'<span class="num">EUR 29,18</span>', desc:'Cubacel Cuba - Paquete 16GB'},
+  {amount:'<span class="num">EUR 31,26</span>', desc:'Cubacel Cuba - Paquete 10GB extra'},
+  {amount:'<span class="num">EUR 41,68</span>', desc:'Cubacel Cuba - Paquete 16GB+min'},
+  {amount:'<span class="num">EUR 52,20</span>', desc:'Cubacel Cuba - Paquete premium'},
+  {amount:'<span class="num">EUR 65,93</span>', desc:'Cubacel Cuba - Paquete grande'}
+];
+
+const nautaOffers = [
+  {amount:'<span class="num">EUR 8,12</span>', desc:'Nauta - Recarga básica'},
+  {amount:'<span class="num">EUR 13,53</span>', desc:'Nauta - 30 días datos'},
+  {amount:'<span class="num">EUR 10,46</span>', desc:'Nauta - Paquete medio'},
+  {amount:'<span class="num">EUR 52,20</span>', desc:'Nauta - Mega paquete'},
+];
+
+/* -------- UI: pestañas -------- */
 tabs.forEach(t=>{
-  $("tab-"+t).onclick = ()=> openTab(t);
+  $('tab-'+t).addEventListener('click', ()=> openTab(t));
 });
 
 function openTab(t){
   tabs.forEach(x=>{
-    $("tab-"+x).classList.remove("active");
-    const card = x+"Card";
-    $(card).style.display = "none";
+    $('tab-'+x).classList.remove('active');
+    $('tab-'+x).classList.add('inactive');
+    const card = x+'Card';
+    if ($(card)) $(card).style.display = 'none';
   });
-  $("tab-"+t).classList.add("active");
-  $(t+"Card").style.display = "block";
+  $('tab-'+t).classList.add('active');
+  $('tab-'+t).classList.remove('inactive');
+  const showCard = t+'Card';
+  if ($(showCard)) $(showCard).style.display = 'block';
 
-  if(t==="recharge") renderPrices();
-  if(t==="history") renderHistory();
+  if(t==='recharge') renderOffers();
+  if(t==='history') renderHistory();
 }
 
+/* -------- Operadores: cambiar vista -------- */
+$('opCubacel').addEventListener('click', ()=>{
+  state.operator = 'cubacel';
+  renderOffers();
+});
+$('opNauta').addEventListener('click', ()=>{
+  state.operator = 'nauta';
+  renderOffers();
+});
 
-/* --- Datos --- */
-const state = {
-  history: JSON.parse(localStorage.getItem("rp_history") || "[]"),
-  prices: [5,10,20,50]
-};
+/* -------- Render ofertas -------- */
+function renderOffers(){
+  const container = $('offersContainer');
+  const list = state.operator === 'cubacel' ? cubacelOffers : nautaOffers;
+  container.innerHTML = `
+    <div style="margin-top:12px;color:var(--muted)">Operador: <strong style="color:#e6eef6">${state.operator.toUpperCase()}</strong></div>
+    ${list.map((o, i)=>`
+      <div class="price-card">
+        <div class="left">
+          <div style="width:56px;text-align:left" title="Importe">${o.amount}</div>
+          <div>
+            <div style="font-weight:600;color:#e6eef6">${o.desc}</div>
+            <div class="desc">Oferta ${i+1}</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <button class="buyBtn" onclick="onBuy('${encodeURIComponent(o.desc)}','${encodeURIComponent(stripTags(o.amount))}')">Comprar</button>
+        </div>
+      </div>
+    `).join('')}
+  `;
+}
 
+/* helper para limpiar tags al pasar amount al comprar */
+function stripTags(html){
+  const tmp = document.createElement('div');
+  tmp.innerHTML = html;
+  return tmp.textContent || tmp.innerText || '';
+}
+
+/* -------- Comprar (demo) -------- */
+function onBuy(descEncoded, amount){
+  const desc = decodeURIComponent(descEncoded);
+  const phone = $('phone').value.trim();
+  if(!phone || phone.length < 8){
+    showMsg('Introduce número válido', true);
+    return;
+  }
+  // guardamos demo en historial
+  const rec = {
+    id: Date.now(),
+    operator: state.operator,
+    phone,
+    amount,
+    desc,
+    date: new Date().toISOString()
+  };
+  state.history.unshift(rec);
+  saveState();
+  showMsg('Compra guardada (demo)');
+  renderHistory();
+}
+
+/* -------- Historial -------- */
 function saveState(){
-  localStorage.setItem("rp_history", JSON.stringify(state.history));
-}
-
-function renderPrices(){
-  $("prices").innerHTML = state.prices.map(p=>`
-    <div class="price-card">
-      <div><strong>$${p}</strong></div>
-      <button onclick="document.getElementById('amount').value=${p}">Usar</button>
-    </div>
-  `).join("");
+  localStorage.setItem('rp_history', JSON.stringify(state.history));
 }
 
 function renderHistory(){
-  const list = $("historyList");
-  if(state.history.length===0){
-    list.innerHTML = "<div class='small muted'>No hay recargas</div>";
+  const list = $('historyList');
+  if(!state.history || state.history.length === 0){
+    list.innerHTML = '<div class="small muted">No hay recargas</div>';
     return;
   }
-  list.innerHTML = state.history.map(r=>`
-    <div class="price-card">
-      <div>
-        <strong>${r.operator}</strong><br>
-        <small>${r.phone}</small>
+  list.innerHTML = state.history.map(h=>{
+    return `
+      <div class="history-item">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <div style="font-weight:700;color:#e6eef6">${h.operator.toUpperCase()}</div>
+            <div class="small muted">${h.phone}</div>
+          </div>
+          <div style="text-align:right">
+            <div class="num">${h.amount}</div>
+            <div class="small muted" style="color:var(--muted)">${new Date(h.date).toLocaleString()}</div>
+          </div>
+        </div>
       </div>
-      <div>$${r.amount}</div>
-    </div>
-  `).join("");
+    `;
+  }).join('');
 }
 
+/* -------- Enviar recarga (botón principal, demo) -------- */
+$('sendBtn').addEventListener('click', ()=>{
+  const phone = $('phone').value.trim();
+  if(!phone || phone.length < 8){
+    showMsg('Número inválido', true);
+    return;
+  }
+  showMsg('Envío simulado (demo)');
+});
 
-/* --- Enviar --- */
-$("sendBtn").onclick = ()=>{
-  const phone = $("phone").value.trim();
-  const amount = Number($("amount").value);
-
-  if(!phone || phone.length<8) return msg("Número inválido",1);
-  if(!amount) return msg("Cantidad inválida",1);
-
-  const rec = {
-    id: Date.now(),
-    phone, amount,
-    operator:"cubacel",
-    date: new Date().toISOString()
-  };
-
-  state.history.unshift(rec);
-  saveState();
-  msg("Guardado (demo)");
-};
-
-function msg(t,err=0){
-  $("msg").innerHTML =
-    `<div style="padding:10px;border-radius:8px;background:${err?"#ffcccc":"#ccffcc"}">${t}</div>`;
-  setTimeout(()=> $("msg").innerHTML="",3000);
+/* -------- Mensajes -------- */
+function showMsg(text, isError){
+  $('msg').innerHTML = `<div style="padding:10px;border-radius:8px;background:${isError? 'rgba(255,77,79,0.12)':'rgba(11,132,255,0.12)'};color:var(--btn-text)">${text}</div>`;
+  setTimeout(()=> $('msg').innerHTML = '', 3000);
 }
 
+/* -------- init -------- */
+openTab('home');
 
-/* --- Service Worker REAL --- */
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker
-      .register("/service-worker.js")
-      .then(() => console.log("SW registrado"))
-      .catch(() => console.log("SW error"));
+/* Si hay un service worker, intenta registrarlo (igual que antes) */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js').catch(()=>{/* no bloquear por SW */});
   });
 }
-
-
-/* --- Init --- */
-openTab("home");
 </script>
-
 </body>
 </html>
