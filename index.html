@@ -1,142 +1,208 @@
-<!DOCTYPE html><html lang="es">
+<!DOCTYPE html>
+<html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RecargasPaCuba</title>
-  <!-- ICONOS PWA -->
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>RecargasPaCuba</title>
+
+<!-- ICONOS PWA -->
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png" />
 <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png" />
 <link rel="apple-touch-icon" href="icon-192.png" />
 <link rel="manifest" href="manifest.json" />
 <meta name="theme-color" content="#0d63c9" />
-  <style>
-    body {
-      margin: 0;
-      font-family: system-ui, sans-serif;
-      background: #0d1117;
-      color: #fff;
-    }
-    header {
-      background: linear-gradient(90deg, #27c0ff, #1597ff);
-      padding: 25px 0 35px;
-      text-align: center;
-      font-size: 26px;
-      font-weight: bold;
-      color: #fff;
-    }
-    .view {display:none; padding:20px;}
-    .activeView {display:block;}
-    .card {background:#111827; padding:15px; border-radius:14px; margin-bottom:12px; display:flex; gap:14px; align-items:center;}
-    .card-title {font-size:20px; font-weight:bold;}
-    .card-desc {font-size:14px; color:#c9d1d9;}
-    .nav {position:fixed; bottom:0; left:0; width:100%; background:#111827; display:flex; justify-content:space-around; padding:12px 0; border-top:1px solid #1e293b;}
-    .nav button {background:none; border:none; color:#e2e8f0; font-size:15px; font-weight:bold;}
-    .selector {display:flex; gap:10px; margin-bottom:20px;}
-    .selector button {flex:1; padding:14px; font-size:16px; border:none; border-radius:10px; font-weight:bold;}
-    .cubacelBtn {background:#1a73e8; color:#fff;}
-    .nautaBtn {background:#ff9800; color:#fff;}
-    .useBtn {margin-left:auto; background:#2196f3; border:none; padding:10px 16px; color:#fff; border-radius:10px; font-weight:bold;}
-  </style>
+
+<style>
+body {
+    margin: 0;
+    font-family: system-ui, sans-serif;
+    background: #0d1117;
+    color: #fff;
+}
+
+header {
+    background: linear-gradient(90deg, #27a3ff, #0d63c9);
+    padding: 25px 0 35px;
+    text-align: center;
+    font-size: 26px;
+    font-weight: bold;
+    color: #fff;
+}
+
+/* Navegación inferior */
+nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #161b22;
+    display: flex;
+    border-top: 1px solid #333;
+}
+
+nav button {
+    flex: 1;
+    padding: 15px 0;
+    background: none;
+    border: none;
+    font-size: 16px;
+    color: #aaa;
+}
+
+nav button.active {
+    background: #0d63c9;
+    color: white;
+    font-weight: bold;
+}
+
+/* Contenido */
+.container {
+    padding: 20px;
+    margin-bottom: 90px;
+}
+
+.card {
+    background: #161b22;
+    padding: 18px;
+    margin-bottom: 18px;
+    border-radius: 12px;
+    box-shadow: 0px 0px 10px #0006;
+}
+
+.price {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+}
+
+.type {
+    color: #ddd;
+    font-size: 14px;
+}
+
+.useBtn {
+    float: right;
+    background: #0d63c9;
+    border: none;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 10px;
+}
+</style>
+
 </head>
 <body>
-  <header>RecargasPaCuba</header>  <!-- HOME -->  <div id="homeView" class="view activeView">
-    <h2>Bienvenido</h2>
-    <p>Esta app permite enviar recargas Cubacel y Nauta fácilmente.</p>
-  </div>  <!-- RECARGAS -->  <div id="recargaView" class="view">
-    <div class="selector">
-      <button id="btnCubacel" class="cubacelBtn">🇨🇺 Cubacel</button>
-      <button id="btnNauta" class="nautaBtn">📶 Nauta</button>
+
+<header>RecargasPaCuba</header>
+
+<div class="container" id="view-home">
+
+    <h2>Envía recargas a Cuba</h2>
+    <p style="color:#9ab;">Selecciona Cubacel o Nauta y el producto. Si estás offline, se guarda localmente.</p>
+
+    <!-- BOTONES PRINCIPALES -->
+    <div style="display:flex; gap:10px; margin-bottom:15px;">
+        <button id="btnCubacel" style="flex:1; padding:18px; font-size:18px; border-radius:12px; border:none; background:#27a3ff; color:white; font-weight:bold;">
+            🇨🇺 Cubacel
+        </button>
+
+        <button id="btnNauta" style="flex:1; padding:18px; font-size:18px; border-radius:12px; border:none; background:#ff9f22; color:white; font-weight:bold;">
+            📶 Nauta
+        </button>
     </div>
-    <div id="productos"></div>
-  </div>  <!-- HISTORIAL -->  <div id="histView" class="view">
+
+    <!-- LISTA DE PRODUCTOS -->
+    <div id="productList"></div>
+
+</div>
+
+<!-- HISTORIAL -->
+<div class="container" id="view-history" style="display:none;">
     <h2>Historial</h2>
-    <div id="histLista"></div>
-  </div>  <!-- CUENTA -->  <div id="cuentaView" class="view">
-    <h2>Mi cuenta</h2>
-    <p>Este apartado se activará cuando conectemos DingConnect API.</p>
-  </div>  <!-- NAV -->  <div class="nav">
-    <button onclick="showView('homeView')">Inicio</button>
-    <button onclick="showView('recargaView')">Recargar</button>
-    <button onclick="showView('histView')">Historial</button>
-    <button onclick="showView('cuentaView')">Cuenta</button>
-  </div>  <script>
-    function showView(id){
-      document.querySelectorAll('.view').forEach(v=>v.classList.remove('activeView'));
-      document.getElementById(id).classList.add('activeView');
-      if(id==='histView') cargarHistorial();
-    }
+    <div id="historyList">Sin recargas</div>
+</div>
 
-    const cubacel=[
-      {precio:"10,42€",icono:"📱",desc:"CUP 250 – CUP 1247",tipo:"Recarga"},
-      {precio:"20,84€",icono:"🎁",desc:"500 CUP + internet 10h",tipo:"Paquete – 330 días"},
-      {precio:"20,84€",icono:"📦",desc:"5GB + 4GB + 75 MIN + 80 SMS",tipo:"Paquete – 35 días"},
-      {precio:"25,01€",icono:"🌙",desc:"600 CUP + internet nocturno",tipo:"Paquete – 330 días"},
-      {precio:"29,18€",icono:"⚡",desc:"700 CUP + internet 24h",tipo:"Paquete – 330 días"},
-      {precio:"31,26€",icono:"📶",desc:"10GB + 4GB + 115 MIN + 120 SMS",tipo:"Paquete – 30 días"},
-      {precio:"41,68€",icono:"🔥",desc:"16GB + 4GB + 165 MIN + 160 SMS",tipo:"Paquete – 30 días"},
-      {precio:"21,98€",icono:"📡",desc:"10GB CPE",tipo:"Datos CPE"},
-      {precio:"65,93€",icono:"📡",desc:"50GB CPE",tipo:"Datos CPE"},
-      {precio:"109,88€",icono:"📡",desc:"100GB CPE",tipo:"Datos CPE"}
-    ];
+<!-- CUENTA -->
+<div class="container" id="view-account" style="display:none;">
+    <h2>Cuenta</h2>
+    <p style="color:#9ab;">Pronto podrás configurar API, balance y más.</p>
+</div>
 
-    const nauta=[
-      {precio:"8,12€",icono:"💻",desc:"360 CUP — Recarga 15 días",tipo:"Recarga"},
-      {precio:"8,12€",icono:"🌐",desc:"Internet ilimitado 15 días",tipo:"Datos"},
-      {precio:"13,53€",icono:"💻",desc:"600 CUP — Recarga 30 días",tipo:"Recarga"},
-      {precio:"13,53€",icono:"🌐",desc:"Internet ilimitado 30 días",tipo:"Datos"},
-      {precio:"10,46€ - 52,20€",icono:"📧",desc:"CUP 250 – 1247",tipo:"Recarga"}
-    ];
+<!-- MENÚ INFERIOR -->
+<nav>
+    <button id="nav-home" class="active">Inicio</button>
+    <button id="nav-recargar">Recargar</button>
+    <button id="nav-history">Historial</button>
+    <button id="nav-account">Cuenta</button>
+</nav>
 
-    function renderProductos(list){
-      const box=document.getElementById("productos");
-      box.innerHTML="";
-      list.forEach(p=>{
-        box.innerHTML+=`
-          <div class="card">
-            <div style="font-size:36px">${p.icono}</div>
-            <div>
-              <div class="card-title">${p.precio}</div>
-              <div class="card-desc">${p.desc}</div>
-              <div class="card-desc">${p.tipo}</div>
-            </div>
-            <button class="useBtn" onclick='usar("${p.precio}","${p.desc}")'>Usar</button>
-          </div>
-        `;
-      });
-    }
+<script>
+// PRODUCTOS CUBACEL
+const cubacel = [
+    { price: "€ 10,42", desc: "Recibe: CUP 250 – CUP 1247 (Min/Max)", type: "Recarga" },
+    { price: "€ 20,84", desc: "Recharge 500 CUP + get 500 CUP + internet 10d", type: "Paquete 330 días" },
+    { price: "€ 20,84", desc: "5GB 4G + 4GB extra + 75 min + 80 SMS", type: "Paquete 30 días" },
+    { price: "€ 25,01", desc: "600 CUP + 3000 CUP + internet noche", type: "Paquete 330 días" },
+    { price: "€ 29,18", desc: "700 CUP + 700 CUP + data 24h", type: "Paquete 330 días" },
+    { price: "€ 31,26", desc: "10GB + 4GB + 165 min + 120 SMS", type: "Paquete 30 días" },
+    { price: "€ 41,68", desc: "16GB + 4GB + 165 min + 160 SMS", type: "Paquete 30 días" }
+];
 
-    document.getElementById("btnCubacel").onclick=()=>renderProductos(cubacel);
-    document.getElementById("btnNauta").onclick=()=>renderProductos(nauta);
+// PRODUCTOS NAUTA
+const nauta = [
+    { price: "€ 8,12", desc: "CUP 360 saldo", type: "Recarga — 15 días" },
+    { price: "€ 8,12", desc: "Internet ilimitado 15 días (50% off)", type: "Datos — 15 días" },
+    { price: "€ 13,53", desc: "CUP 600 saldo", type: "Recarga — 30 días" },
+    { price: "€ 13,53", desc: "Internet ilimitado 30 días", type: "Datos — 30 días" },
+    { price: "€ 10,46 - 52,20", desc: "CUP 250 – CUP 1247 (Min/Max)", type: "Recarga" }
+];
 
-    renderProductos(cubacel);
+// MOSTRAR PRODUCTOS
+function loadProducts(list) {
+    const box = document.getElementById("productList");
+    box.innerHTML = "";
+    list.forEach(item => {
+        box.innerHTML += `
+        <div class="card">
+            <div class="price">${item.price}</div>
+            <div class="type">${item.desc}<br><b>${item.type}</b></div>
+            <button class="useBtn">Usar</button>
+        </div>`;
+    });
+}
 
-    let historial=JSON.parse(localStorage.getItem('historial')||'[]');
+loadProducts(cubacel);
 
-    function usar(precio,desc){
-      const num=prompt(`Introduce número destino:
-${precio} – ${desc}`);
-      if(!num || num.length<5) return alert("Número inválido");
-      historial.unshift({precio,desc,num,fecha:new Date().toLocaleString()});
-      localStorage.setItem('historial',JSON.stringify(historial));
-      alert("Guardado en historial (modo demo)");
-    }
+// CAMBIO DE LISTAS
+document.getElementById("btnCubacel").onclick = () => loadProducts(cubacel);
+document.getElementById("btnNauta").onclick = () => loadProducts(nauta);
 
-    function cargarHistorial(){
-      const box=document.getElementById("histLista");
-      box.innerHTML="";
-      historial.forEach(h=>{
-        box.innerHTML+=`
-          <div class="card">
-            <div>
-              <div class="card-title">${h.precio}</div>
-              <div class="card-desc">${h.desc}</div>
-              <div class="card-desc">A: ${h.num}</div>
-              <div class="card-desc">${h.fecha}</div>
-            </div>
-          </div>
-        `;
-      });
-      if(historial.length===0) box.innerHTML="<p>No hay recargas guardadas</p>";
-    }
-  </script></body>
+// MENÚ INFERIOR
+function show(section) {
+    document.getElementById("view-home").style.display = "none";
+    document.getElementById("view-history").style.display = "none";
+    document.getElementById("view-account").style.display = "none";
+    document.getElementById(section).style.display = "block";
+
+    document.querySelectorAll("nav button").forEach(btn => btn.classList.remove("active"));
+    document.getElementById("nav-" + section.replace("view-", "")).classList.add("active");
+}
+
+document.getElementById("nav-home").onclick = () => show("view-home");
+document.getElementById("nav-recargar").onclick = () => show("view-home");
+document.getElementById("nav-history").onclick = () => show("view-history");
+document.getElementById("nav-account").onclick = () => show("view-account");
+</script>
+
+<!-- SERVICE WORKER REGISTRO -->
+<script>
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker
+    .register("service-worker.js")
+    .then(() => console.log("SW registrado con éxito"))
+    .catch(err => console.log("Error registrando SW:", err));
+}
+</script>
+
+</body>
 </html>
