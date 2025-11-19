@@ -1,35 +1,83 @@
-// service-worker.js
-
-const CACHE_NAME = "rpc-cache-v4";
-
+// service-worker.js (copiar/pegar tal cual)
+const CACHE_NAME = 'rpc-cache-v1';
 const ASSETS = [
-  "/",
-  "/index.html",
-  "/icon-192.png",
-  "/icon-512.png",
-  "/manifest.json"
+  './',               // permite navegación SPA desde subruta
+  './index.html',
+  './manifest.json',
+  './icon-192.png',
+  './icon-512.png',
+  './service-worker.js'
 ];
 
-// INSTALACIÓN
-self.addEventListener("install", (e) => {
-  self.skipWaiting();
-  e.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS))
+// Instalación: precacheo
+self.addEventListener('install', event => {
+  self.skipWaiting(); // toma el control inmediatamente
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then(cache => cache.addAll(ASSETS))
+      .catch(err => {
+        console.warn('SW precache error:', err);
+      })
   );
 });
 
-// ACTIVACIÓN → Limpia versiones viejas
-self.addEventListener("activate", (e) => {
-  e.waitUntil(
-    caches.keys().then((keys) =>
-      Promise.all(keys.map((k) => (k !== CACHE_NAME ? caches.delete(k) : null)))
-    ).then(() => self.clients.claim())
+// Activación: limpiar caches viejos y reclamar clientes
+self.addEventListener('activate', event => {
+  event.waitUntil(
+    caches.keys()
+      .then(keys => Promise.all(
+        keys.map(key => (key !== CACHE_NAME) ? caches.delete(key) : null)
+      ))
+      .then(() => self.clients.claim())
   );
 });
 
-// FETCH → Si existe en cache, úsalo. Si no, red desde la red.
-self.addEventListener("fetch", (e) => {
-  e.respondWith(
-    caches.match(e.request).then((res) => res || fetch(e.request))
+// Fetch: cache-first, luego red; guarda en cache respuestas válidas
+self.addEventListener('fetch', event => {
+  // solo GET
+  if (event.request.method !== 'GET') return;
+
+  event.respondWith(
+    caches.match(event.request).then(cachedResponse => {
+      if (cachedResponse) {
+        // Return cached response immediately
+        return cachedResponse;
+      }
+
+      // No está en cache -> ir a red
+      return fetch(event.request)
+        .then(networkResponse => {
+          // si la respuesta no es válida, se devuelve tal cual (no se cachea)
+          if (!networkResponse || networkResponse.status !== 200 || networkResponse.type === 'opaque') {
+            return networkResponse;
+          }
+
+          // clone para guardar en cache
+          const responseClone = networkResponse.clone();
+          caches.open(CACHE_NAME)
+            .then(cache => {
+              // intenta cachear la request (evita errores silenciosos)
+              cache.put(event.request, responseClone).catch(err => {
+                // algunas requests (cross-origin) pueden fallar al cachear; no es crítico
+                // console.warn('No se pudo cachear:', event.request.url, err);
+              });
+            });
+
+          return networkResponse;
+        })
+        .catch(() => {
+          // Si falla la red, intento devolver index.html (SPA offline)
+          return caches.match('./index.html');
+        });
+    })
   );
+});
+
+// Permite forzar skipWaiting desde la página:
+// navigator.serviceWorker.controller.postMessage({type: 'SKIP_WAITING'})
+self.addEventListener('message', event => {
+  if (!event.data) return;
+  if (event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
 });
