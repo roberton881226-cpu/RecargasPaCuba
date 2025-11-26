@@ -39,10 +39,11 @@ header.site-header .brand{font-weight:700;font-size:20px}
 
 @media (max-width:900px){
   .card-grid{grid-template-columns:repeat(2,1fr)}
-  .sidebar{display:none}
+  /* 🔥 Sidebar SIEMPRE visible → SE QUITA display:none */
   .layout{flex-direction:column}
   .main{padding:12px}
 }
+
 @media (max-width:520px){
   .card-grid{grid-template-columns:1fr}
 }
