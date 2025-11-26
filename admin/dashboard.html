@@ -40,6 +40,24 @@
 
 </div>
 
+<!-- ===============================
+     SCRIPT PARA FORZAR INICIO
+================================ -->
+<script>
+// Siempre abrir en Inicio aunque se cerrara en otra página
+window.onload = () => {
+    // Si la URL tiene otra sección tipo ?view=stats, la ignora y vuelve a inicio
+    if (!window.location.pathname.endsWith("dashboard.html")) {
+        window.location.href = "dashboard.html";
+    }
+
+    // Marcar el botón "Inicio" como activo por si vienes de otro sitio
+    const links = document.querySelectorAll(".sidebar a");
+    links.forEach(link => link.classList.remove("active"));
+    document.querySelector(".sidebar a[href='dashboard.html']").classList.add("active");
+};
+</script>
+
 <script src="admin.js"></script>
 
 </body>
