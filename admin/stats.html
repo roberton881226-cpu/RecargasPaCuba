@@ -1,1 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estadísticas - Admin</title>
 
+    <style>
+        body { font-family: Arial; background: #f2f2f2; margin: 0; }
+        header { background: #222; color: #fff; padding: 15px; text-align: center; }
+        nav { background: #333; padding: 10px; }
+        nav a { color: #fff; margin-right: 20px; text-decoration: none; }
+        .container { padding: 20px; }
+        .card { background: #fff; padding: 20px; margin-bottom: 20px; border-radius: 5px; }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h2>📊 Estadísticas</h2>
+</header>
+
+<nav>
+    <a href="dashboard.html">🏠 Inicio</a>
+    <a href="stats.html">📊 Estadísticas</a>
+    <a href="ventas.html">🛒 Ventas</a>
+    <a href="ganancias.html">💸 Ganancias</a>
+    <a href="productos.html">📦 Productos</a>
+</nav>
+
+<div class="container">
+    <div class="card">Total recargas hoy: <b>0</b></div>
+    <div class="card">Total recargas este mes: <b>0</b></div>
+    <div class="card">Total usuarios: <b>0</b></div>
+    <div class="card">Ventas totales: <b>0 €</b></div>
+</div>
+
+<script>
+    const logged = localStorage.getItem("adminLogged");
+    if (logged !== "true") {
+        window.location.href = "login.html";
+    }
+</script>
+
+</body>
+</html>
