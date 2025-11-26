@@ -3,17 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login</title>
+    <title>Login Admin</title>
+    <link rel="stylesheet" href="admin.css">
 </head>
-<body>
-    <h2>Panel Administrador</h2>
+
+<body style="display:flex;align-items:center;justify-content:center;height:100vh;background:#f1f1f1">
+
+<div style="background:white;padding:30px;border-radius:10px;box-shadow:0 4px 20px rgba(0,0,0,0.1);width:300px;text-align:center;">
+    <h2>Acceso Admin</h2>
 
     <form id="admin-login">
-        <input type="text" id="usuario" placeholder="Usuario" required>
-        <input type="password" id="clave" placeholder="Contraseña" required>
-        <button type="submit">Entrar</button>
-    </form>
+        <input type="text" id="usuario" placeholder="Usuario" required
+               style="width:100%;padding:10px;margin-top:10px;border-radius:6px;border:1px solid #ccc;">
+        <input type="password" id="clave" placeholder="Contraseña" required
+               style="width:100%;padding:10px;margin-top:10px;border-radius:6px;border:1px solid #ccc;">
 
-    <script src="login.js"></script>
+        <button type="submit"
+                style="width:100%;padding:10px;margin-top:15px;border:none;border-radius:6px;background:#ffcc00;font-weight:bold;cursor:pointer;">
+            Entrar
+        </button>
+    </form>
+</div>
+
+<script src="login.js"></script>
+<script src="admin.js"></script>
+
 </body>
 </html>
