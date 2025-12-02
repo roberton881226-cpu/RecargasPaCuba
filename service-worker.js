@@ -8,8 +8,7 @@
 
 const CACHE_PREFIX = "rpc-pro-";
 // Bump APP_VERSION whenever you need to invalidate cached HTML (e.g., after UI updates)
-// Increment APP_VERSION whenever you deploy UI changes so browsers pick up the new precache.
-const APP_VERSION = "v3-2024-09-05";
+const APP_VERSION = "v2-2024-08-20";
 const CACHE_VERSION = APP_VERSION;
 const PRECACHE = `${CACHE_PREFIX}static-${CACHE_VERSION}`;
 const RUNTIME = `${CACHE_PREFIX}runtime-${CACHE_VERSION}`;
