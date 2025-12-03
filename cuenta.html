@@ -22,10 +22,9 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding-bottom: 120px;
+      padding-bottom: 120px; /* hueco para la barra inferior */
     }
 
-    /* CONTENEDOR PRINCIPAL */
     .app {
       width: 100%;
       max-width: 520px;
@@ -35,7 +34,7 @@
       align-items: center;
     }
 
-    /* AVATAR */
+    /* Avatar */
     .avatar {
       width: 120px;
       height: 120px;
@@ -53,7 +52,7 @@
       fill: #fff;
     }
 
-    /* SALDO */
+    /* Saldo */
     .saldo-title {
       font-size: 16px;
       font-weight: 600;
@@ -67,7 +66,7 @@
       margin-bottom: 28px;
     }
 
-    /* BOTONES */
+    /* Botones */
     .botones {
       width: 100%;
       display: flex;
@@ -88,22 +87,20 @@
       box-shadow: 0 10px 25px rgba(0,0,0,0.25);
     }
 
-    /* BARRA INFERIOR (IDÉNTICA A INICIO) */
+    /* Barra inferior igual a INICIO (color y estilo) */
     nav.bottom {
       position: fixed;
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(5, 18, 39, 0.95);
-      backdrop-filter: blur(16px);
+      width: 100%;
+      background: linear-gradient(135deg, #0a5fcb, #0db3da);
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       padding: 12px 10px 20px;
       border-top-left-radius: 20px;
       border-top-right-radius: 20px;
-      box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.35);
-      max-width: 520px;
-      margin: 0 auto;
+      box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.25);
     }
 
     .nav-btn {
@@ -114,7 +111,7 @@
       gap: 6px;
       font-size: 12px;
       font-weight: 700;
-      color: #cfe6ff;
+      color: #dff1ff;
     }
 
     .nav-btn .icon {
@@ -124,8 +121,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: rgba(255, 255, 255, 0.1);
-      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.15);
       font-size: 18px;
     }
 
@@ -134,39 +130,37 @@
     }
 
     .nav-btn.active .icon {
-      background: rgba(255, 166, 66, 0.22);
+      background: rgba(255, 166, 66, 0.25);
       color: #ffb13b;
-      box-shadow: inset 0 0 0 1px rgba(255, 166, 66, 0.4);
     }
+
   </style>
 </head>
 
 <body>
 
   <main class="app">
-
-    <!-- AVATAR -->
+    <!-- Avatar -->
     <div class="avatar">
       <svg viewBox="0 0 24 24">
         <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8V22h19.2v-2.8c0-3.2-6.4-4.8-9.6-4.8z"/>
       </svg>
     </div>
 
-    <!-- SALDO -->
+    <!-- Saldo -->
     <div class="saldo-title">Saldo</div>
     <div class="saldo">0.00 EUR</div>
 
-    <!-- BOTONES -->
+    <!-- Botones -->
     <div class="botones">
       <button class="btn">Cuenta</button>
       <button class="btn">Agregar saldo</button>
       <button class="btn">Métodos de pago</button>
       <button class="btn">Cerrar sesión</button>
     </div>
-
   </main>
 
-  <!-- BARRA INFERIOR EXACTA A LA DE INICIO -->
+  <!-- Barra inferior -->
   <nav class="bottom">
     <a href="index.html" class="nav-btn">
       <div class="icon">🏠</div>
