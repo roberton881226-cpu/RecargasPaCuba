@@ -5,6 +5,10 @@
   <title>Cuenta | RecargasPaCuba</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#28c6db">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#28c6db">
+
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap');
 
@@ -14,235 +18,325 @@
       --glass: rgba(255,255,255,0.18);
     }
 
-    *{box-sizing:border-box;margin:0;padding:0;font-family:'Poppins',sans-serif;}
-
-    body{
-      min-height:100vh;
-      background:linear-gradient(135deg,#0a5fcb,#0db3da);
-      color:#fff;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      padding-bottom:120px;
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
     }
 
-    .app{
-      width:100%;
-      max-width:520px;
-      padding:22px 18px 0;
-      display:flex;
-      flex-direction:column;
-      gap:22px;
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0a5fcb, #0db3da);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-bottom: 120px;
     }
 
-    .card{
-      background:var(--glass);
-      border-radius:22px;
-      padding:18px;
-      box-shadow:0 10px 25px rgba(0,0,0,0.25);
+    .app {
+      width: 100%;
+      max-width: 520px;
+      padding: 22px 18px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    /* ===== CARDS ===== */
+    .card {
+      background: var(--glass);
+      border-radius: 22px;
+      padding: 18px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
       backdrop-filter: blur(10px);
-      border:1px solid rgba(255,255,255,0.25);
+      border: 1px solid rgba(255,255,255,0.25);
     }
 
     /* PERFIL */
-    .perfil{
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      gap:10px;
+    .perfil {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
     }
 
-    .avatar{
-      width:100px;
-      height:100px;
-      border-radius:50%;
-      background:rgba(255,255,255,0.25);
-      display:flex;
-      align-items:center;
-      justify-content:center;
+    .avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .avatar svg{width:50px;height:50px;fill:#fff;}
+    .avatar svg {
+      width: 50px;
+      height: 50px;
+      fill: #fff;
+    }
 
-    .user-email{
-      font-size:14px;
-      font-weight:600;
-      opacity:0.9;
+    .user-email {
+      font-size: 14px;
+      font-weight: 600;
+      opacity: 0.9;
     }
 
     /* SALDO */
-    .saldo-box{
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      gap:6px;
+    .saldo-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
     }
 
-    .saldo-title{font-size:15px;opacity:0.9;}
-    .saldo{
-      font-size:36px;
-      font-weight:800;
+    .saldo-title {
+      font-size: 15px;
+      opacity: 0.9;
+    }
+
+    .saldo {
+      font-size: 36px;
+      font-weight: 800;
     }
 
     /* ACCIONES */
-    .acciones{
-      display:flex;
-      flex-direction:column;
-      gap:14px;
+    .acciones {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
     }
 
-    .btn{
-      width:100%;
-      border:none;
-      border-radius:26px;
-      padding:16px;
-      font-size:17px;
-      font-weight:700;
-      background:linear-gradient(145deg,#ffae43,#ff941f);
-      color:#2e1200;
-      cursor:pointer;
-      box-shadow:0 8px 18px rgba(0,0,0,0.25);
+    .btn {
+      width: 100%;
+      border: none;
+      border-radius: 26px;
+      padding: 16px;
+      font-size: 17px;
+      font-weight: 700;
+      background: linear-gradient(145deg, #ffae43, #ff941f);
+      color: #2e1200;
+      cursor: pointer;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.25);
     }
 
-    /* ---------------- MODALES ---------------- */
-    .modal-bg,.modal-bg-saldo{
-      position:fixed;
-      top:0;left:0;
-      width:100%;height:100%;
-      background:rgba(0,0,0,0.55);
-      display:none;
-      justify-content:center;
-      align-items:center;
-      z-index:3000;
+    /* ================= MODALES ================= */
+    .modal-bg, .modal-bg-saldo {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.55);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 3000;
       backdrop-filter: blur(6px);
     }
 
-    .modal{
-      background:rgba(255,255,255,0.10);
-      padding:22px;
-      border-radius:16px;
-      max-width:85%;
-      text-align:center;
-      color:#fff;
-      border:1px solid rgba(255,255,255,0.25);
-      box-shadow:0 10px 30px rgba(0,0,0,0.35);
+    .modal {
+      background: rgba(255,255,255,0.10);
+      padding: 22px;
+      border-radius: 16px;
+      max-width: 85%;
+      text-align: center;
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.25);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
       backdrop-filter: blur(12px);
     }
 
-    .modal button{
-      margin-top:16px;
-      padding:10px 20px;
-      border:none;
-      border-radius:10px;
-      background:#ffb13b;
-      color:#2c1200;
-      font-size:15px;
-      font-weight:700;
-      cursor:pointer;
+    .modal button {
+      margin-top: 16px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      background: #ffb13b;
+      color: #2c1200;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
     }
 
-    .modal input{
-      width:80%;
-      padding:10px;
-      border-radius:10px;
-      border:none;
-      margin-top:12px;
-      font-size:16px;
-      text-align:center;
+    .modal input {
+      width: 80%;
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      margin-top: 12px;
+      font-size: 16px;
+      text-align: center;
     }
 
-    /* ---------------- BARRA INFERIOR ---------------- */
-    nav.bottom{
-      position:fixed;
-      left:12px;right:12px;bottom:18px;
-      display:flex;
-      justify-content:space-around;
-      align-items:center;
-      padding:10px 14px;
-      border-radius:18px;
-      background:linear-gradient(90deg,var(--left),var(--right));
-      box-shadow:0 12px 30px rgba(8,20,40,0.32);
-      z-index:2000;
+    /* ================= BARRA INFERIOR ================= */
+    nav.bottom {
+      position: fixed;
+      left: 12px;
+      right: 12px;
+      bottom: 18px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 10px 14px;
+      border-radius: 18px;
+      background: linear-gradient(90deg,var(--left),var(--right));
+      box-shadow: 0 12px 30px rgba(8,20,40,0.32);
+      z-index: 2000;
       backdrop-filter: blur(12px);
-      border:1px solid rgba(255,255,255,0.25);
+      border: 1px solid rgba(255,255,255,0.25);
     }
 
-    nav.bottom .nav-btn{
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      gap:6px;
-      color:white;
-      font-weight:800;
-      padding:8px 12px;
-      border-radius:10px;
-      text-decoration:none;
+    nav.bottom .nav-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      color: white;
+      font-weight: 800;
+      padding: 8px 12px;
+      border-radius: 10px;
+      text-decoration: none;
     }
 
-    nav.bottom .nav-btn.active{
-      transform:translateY(-6px);
-      background:rgba(255,255,255,0.12);
-      box-shadow:0 8px 18px rgba(0,0,0,0.25);
-      border:1px solid rgba(255,255,255,0.25);
+    nav.bottom .nav-btn.active {
+      transform: translateY(-6px);
+      background: rgba(255,255,255,0.12);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+      border: 1px solid rgba(255,255,255,0.25);
     }
   </style>
 </head>
 
 <body>
 
-<main class="app">
+  <main class="app">
 
-  <div class="card perfil">
-    <div class="avatar">
-      <svg viewBox="0 0 24 24">
-        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-3.33 0-10 1.67-10 5v1h20v-1c0-3.33-6.67-5-10-5z"/>
-      </svg>
+    <!-- PERFIL -->
+    <div class="card perfil">
+      <div class="avatar">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-3.33 0-10 1.67-10 5v1h20v-1c0-3.33-6.67-5-10-5z"/>
+        </svg>
+      </div>
+      <div id="emailUsuario" class="user-email"></div>
     </div>
-    <div id="emailUsuario" class="user-email"></div>
+
+    <!-- SALDO -->
+    <div class="card saldo-box">
+      <div class="saldo-title">Saldo disponible</div>
+      <div id="saldo" class="saldo">0,00 €</div>
+    </div>
+
+    <!-- ACCIONES -->
+    <div class="card acciones">
+      <button class="btn" id="addSaldoBtn">Agregar saldo</button>
+      <button class="btn">Métodos de pago</button>
+      <button class="btn">Datos de la cuenta</button>
+      <button class="btn" id="logoutBtn">Cerrar sesión</button>
+    </div>
+
+  </main>
+
+  <!-- BARRA INFERIOR -->
+  <nav class="bottom" role="navigation" aria-label="Barra inferior">
+    <a href="recargar.html" class="nav-btn">
+      <span style="font-size:20px">⚡</span>
+      <div style="font-size:12px">Recargar</div>
+    </a>
+
+    <a href="historial.html" class="nav-btn">
+      <span style="font-size:20px">📜</span>
+      <div style="font-size:12px">Historial</div>
+    </a>
+
+    <a href="cuenta.html" class="nav-btn active">
+      <span style="font-size:20px">👤</span>
+      <div style="font-size:12px">Cuenta</div>
+    </a>
+  </nav>
+
+  <!-- MODAL ERROR (ORIGINAL INTACTO) -->
+  <div id="modal-bg" class="modal-bg">
+    <div class="modal">
+      <div id="modal-text">Error</div>
+      <button id="modal-btn">Aceptar</button>
+    </div>
   </div>
 
-  <div class="card saldo-box">
-    <div class="saldo-title">Saldo disponible</div>
-    <div id="saldo" class="saldo">0,00 €</div>
+  <!-- MODAL AGREGAR SALDO (ORIGINAL INTACTO) -->
+  <div id="modal-bg-saldo" class="modal-bg-saldo">
+    <div class="modal">
+      <div>Introduce la cantidad que deseas agregar:</div>
+      <input id="saldoInput" type="number" min="1" />
+      <button id="btnAgregarSaldo">Agregar</button>
+    </div>
   </div>
 
-  <div class="card acciones">
-    <button class="btn" id="addSaldoBtn">Agregar saldo</button>
-    <button class="btn">Métodos de pago</button>
-    <button class="btn">Datos de la cuenta</button>
-    <button class="btn" id="logoutBtn">Cerrar sesión</button>
-  </div>
+  <!-- ===================== JS ORIGINAL INTACTO ===================== -->
+  <script>
+    // PROTECCIÓN DE SESIÓN
+    const usuario = localStorage.getItem("usuario");
+    if (!usuario) {
+      window.location.href = "index.html";
+    }
 
-</main>
+    document.getElementById("emailUsuario").textContent = usuario;
 
-<nav class="bottom">
-  <a href="recargar.html" class="nav-btn"><span>⚡</span><div style="font-size:12px">Recargar</div></a>
-  <a href="historial.html" class="nav-btn"><span>📜</span><div style="font-size:12px">Historial</div></a>
-  <a href="cuenta.html" class="nav-btn active"><span>👤</span><div style="font-size:12px">Cuenta</div></a>
-</nav>
+    // Cargar saldo
+    function cargarSaldo() {
+      let saldo = localStorage.getItem("saldo");
+      if (!saldo) saldo = 0;
+      document.getElementById("saldo").textContent =
+        parseFloat(saldo).toFixed(2) + " €";
+    }
+    cargarSaldo();
 
-<!-- LOS MODALES Y EL JS SE QUEDAN EXACTAMENTE IGUAL -->
-<!-- NO LOS TOCO -->
+    // Abrir modal agregar saldo
+    document.getElementById("addSaldoBtn").addEventListener("click", () => {
+      document.getElementById("modal-bg-saldo").style.display = "flex";
+      document.getElementById("saldoInput").value = "";
+    });
 
-<script>
-  const usuario = localStorage.getItem("usuario");
-  if (!usuario) window.location.href = "index.html";
-  document.getElementById("emailUsuario").textContent = usuario;
+    // Botón AGREGAR dentro del modal
+    document.getElementById("btnAgregarSaldo").addEventListener("click", () => {
+      let cantidad = parseFloat(document.getElementById("saldoInput").value);
 
-  function cargarSaldo(){
-    let saldo = localStorage.getItem("saldo");
-    if(!saldo) saldo = 0;
-    document.getElementById("saldo").textContent = parseFloat(saldo).toFixed(2)+" €";
-  }
-  cargarSaldo();
+      if (isNaN(cantidad)) {
+        document.getElementById("modal-bg-saldo").style.display = "none";
+        return mostrarError("Ingrese una cantidad válida.");
+      }
 
-  document.getElementById("addSaldoBtn").addEventListener("click",()=>{
-    document.getElementById("modal-bg-saldo").style.display="flex";
-    document.getElementById("saldoInput").value="";
-  });
+      if (cantidad < 10) {
+        document.getElementById("modal-bg-saldo").style.display = "none";
+        return mostrarError("El importe mínimo para agregar saldo es de 10 €.");
+      }
 
-  document.getElementById("btnAgregarSaldo")?.addEventListener("click",()=>{});
-</script>
+      let saldoActual = parseFloat(localStorage.getItem("saldo")) || 0;
+      let nuevoSaldo = saldoActual + cantidad;
+
+      localStorage.setItem("saldo", nuevoSaldo);
+      cargarSaldo();
+
+      document.getElementById("modal-bg-saldo").style.display = "none";
+    });
+
+    // MODAL ERROR
+    function mostrarError(texto) {
+      document.getElementById("modal-text").textContent = texto;
+      document.getElementById("modal-bg").style.display = "flex";
+    }
+
+    document.getElementById("modal-btn").addEventListener("click", () => {
+      document.getElementById("modal-bg").style.display = "none";
+    });
+
+    // CERRAR SESIÓN
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      localStorage.removeItem("usuario");
+      window.location.href = "index.html";
+    });
+  </script>
 
 </body>
 </html>
