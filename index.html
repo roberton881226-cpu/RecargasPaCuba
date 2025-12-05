@@ -3,29 +3,51 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<meta name="color-scheme" content="light">
-<meta name="theme-color" media="(prefers-color-scheme: light)" content="#28c6db">
-<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#28c6db">
+
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#28c6db">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#28c6db">
+  <meta name="theme-color" content="#0b63d1">
+
   <title>RecargasPaCuba</title>
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#0b63d1">
+
+  <!-- ✅ ANTI-FLASH GLOBAL -->
+  <style>
+    html, body {
+      background: linear-gradient(180deg,#2fb8d6 0%, #2ba6d0 35%, #1aa0c3 70%) !important;
+    }
+
+    * {
+      animation: none !important;
+      transition: none !important;
+    }
+  </style>
 
   <style>
     *{margin:0;padding:0;box-sizing:border-box}
-    html,body{height:100%;background:#0b0f13;}
+    html,body{
+      height:100%;
+      background: linear-gradient(180deg,#2fb8d6 0%, #2ba6d0 35%, #1aa0c3 70%);
+    }
+
     body{
       font-family: Inter, system-ui, Arial, sans-serif;
-      background: linear-gradient(180deg,#2fb8d6 0%, #2ba6d0 35%, #1aa0c3 70%);
       color:white;
       display:flex;
       flex-direction:column;
       min-height:100vh;
     }
-    .app{max-width:820px;margin:auto;width:100%;padding:0;flex:1 0 auto}
 
-    header.appbar{
-      display:none;
+    .app{
+      max-width:820px;
+      margin:auto;
+      width:100%;
+      padding:0;
+      flex:1 0 auto;
     }
+
+    header.appbar{display:none;}
 
     :root{
       --left:#0b63d1;
@@ -60,7 +82,11 @@
       align-items:center;
       justify-content:center;
     }
-    .logo-big img{width:90%;height:auto;border-radius:50%}
+    .logo-big img{
+      width:90%;
+      height:auto;
+      border-radius:50%;
+    }
 
     .login-title{
       font-size:40px;
@@ -68,7 +94,12 @@
       margin-top:8px;
       color:#ffffff;
     }
-    .login-sub{color:#e7f7fb;margin-top:8px;font-size:16px}
+
+    .login-sub{
+      color:#e7f7fb;
+      margin-top:8px;
+      font-size:16px;
+    }
 
     .input-pill{
       width:100%;
@@ -126,7 +157,6 @@
       color:#e0f6ffb8;
       line-height:1.5;
     }
-
   </style>
 
 </head>
