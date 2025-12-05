@@ -3,12 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="color-scheme" content="light">
-<meta name="theme-color" media="(prefers-color-scheme: light)" content="#28c6db">
-<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#28c6db">
+
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#28c6db">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#28c6db">
+  <meta name="theme-color" content="#0b5bd3">
+
   <title>Recargar | RecargasPaCuba</title>
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#0b5bd3">
+
+  <!-- ✅ ANTI-FLASH GLOBAL -->
+  <style>
+    html, body {
+      background: linear-gradient(135deg, #0b63d1, #19c6c3) !important;
+    }
+
+    * {
+      animation: none !important;
+      transition: none !important;
+    }
+  </style>
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
@@ -233,15 +247,22 @@
 
     /* Barra inferior */
     nav.bottom{
-      position:fixed;left:12px;right:12px;bottom:18px;
-      display:flex;justify-content:space-around;align-items:center;
-      padding:10px 14px;border-radius:18px;
+      position:fixed;
+      left:12px;
+      right:12px;
+      bottom:18px;
+      display:flex;
+      justify-content:space-around;
+      align-items:center;
+      padding:10px 14px;
+      border-radius:18px;
       background: linear-gradient(90deg,var(--left),var(--right));
       box-shadow: 0 12px 30px rgba(8,20,40,0.32);
       z-index:2000;
       backdrop-filter: blur(12px);
       border: 1px solid rgba(255,255,255,0.25);
     }
+
     nav.bottom .nav-btn{
       display:flex;
       flex-direction:column;
@@ -252,17 +273,16 @@
       padding:8px 12px;
       border-radius:10px;
       text-decoration:none;
-      box-shadow:none;
       background:transparent;
       font-size: 11px;
     }
+
     nav.bottom .nav-btn.active{
       transform:translateY(-6px);
       background:rgba(255,255,255,0.12);
       box-shadow:0 8px 18px rgba(0,0,0,0.25);
       border:1px solid rgba(255,255,255,0.25);
     }
-
   </style>
 </head>
 
@@ -299,35 +319,17 @@
 
         <div class="card-body">
           <div class="benefits-row">
-            <div class="benefit">
-              <strong>568</strong>
-              CUP
-            </div>
-            <div class="benefit">
-              <strong>2 GB</strong>
-              Datos
-            </div>
-            <div class="benefit">
-              <strong>60</strong>
-              Min
-            </div>
-            <div class="benefit">
-              <strong>80</strong>
-              SMS
-            </div>
+            <div class="benefit"><strong>568</strong>CUP</div>
+            <div class="benefit"><strong>2 GB</strong>Datos</div>
+            <div class="benefit"><strong>60</strong>Min</div>
+            <div class="benefit"><strong>80</strong>SMS</div>
           </div>
-          <div class="extra-info">
-            Ideal para uso mixto de llamadas, datos y SMS.
-          </div>
-          <div class="validity">
-            Validez estándar según condiciones de CUBACEL.
-          </div>
+          <div class="extra-info">Ideal para uso mixto de llamadas, datos y SMS.</div>
+          <div class="validity">Validez estándar según condiciones de CUBACEL.</div>
         </div>
 
         <div class="card-footer">
-          <div class="fees">
-            Tasas e impuestos incluidos.
-          </div>
+          <div class="fees">Tasas e impuestos incluidos.</div>
           <button class="cta">Entrar para comprar</button>
         </div>
       </article>
@@ -352,35 +354,17 @@
 
         <div class="card-body">
           <div class="benefits-row">
-            <div class="benefit">
-              <strong>500</strong>
-              CUP
-            </div>
-            <div class="benefit">
-              <strong>4 GB</strong>
-              Datos
-            </div>
-            <div class="benefit">
-              <strong>75</strong>
-              Min
-            </div>
-            <div class="benefit">
-              <strong>80</strong>
-              SMS
-            </div>
+            <div class="benefit"><strong>500</strong>CUP</div>
+            <div class="benefit"><strong>4 GB</strong>Datos</div>
+            <div class="benefit"><strong>75</strong>Min</div>
+            <div class="benefit"><strong>80</strong>SMS</div>
           </div>
-          <div class="extra-info">
-            Recarga promocional con datos extra y minutos.
-          </div>
-          <div class="validity">
-            Vigencia estimada: 35 días desde la activación.
-          </div>
+          <div class="extra-info">Recarga promocional con datos extra y minutos.</div>
+          <div class="validity">Vigencia estimada: 35 días desde la activación.</div>
         </div>
 
         <div class="card-footer">
-          <div class="fees">
-            Oferta sujeta a calendario de promociones.
-          </div>
+          <div class="fees">Oferta sujeta a calendario de promociones.</div>
           <button class="cta">Entrar para comprar</button>
         </div>
       </article>
@@ -405,35 +389,17 @@
 
         <div class="card-body">
           <div class="benefits-row">
-            <div class="benefit">
-              <strong>700</strong>
-              CUP
-            </div>
-            <div class="benefit">
-              <strong>4 GB</strong>
-              LTE
-            </div>
-            <div class="benefit">
-              <strong>60</strong>
-              Min
-            </div>
-            <div class="benefit">
-              <strong>—</strong>
-              Extra
-            </div>
+            <div class="benefit"><strong>700</strong>CUP</div>
+            <div class="benefit"><strong>4 GB</strong>LTE</div>
+            <div class="benefit"><strong>60</strong>Min</div>
+            <div class="benefit"><strong>—</strong>Extra</div>
           </div>
-          <div class="extra-info">
-            Pensada para uso intensivo de datos y llamadas.
-          </div>
-          <div class="validity">
-            Vigencia estimada: 7 días desde la activación.
-          </div>
+          <div class="extra-info">Pensada para uso intensivo de datos y llamadas.</div>
+          <div class="validity">Vigencia estimada: 7 días desde la activación.</div>
         </div>
 
         <div class="card-footer">
-          <div class="fees">
-            Tasas incluidas. Oferta de corta duración.
-          </div>
+          <div class="fees">Tasas incluidas. Oferta de corta duración.</div>
           <button class="cta">Entrar para comprar</button>
         </div>
       </article>
